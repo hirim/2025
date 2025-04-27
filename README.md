@@ -2,6 +2,8 @@
 11.py 스위치 기초코드  
 
 
+12.py 카메라, GPIO 스위치 제어 기초코드 
+
 13.py RED, GREEN, BLUE 색을 각각 구별하기 : RED 코드
 
 
