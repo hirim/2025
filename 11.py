@@ -1,32 +1,38 @@
 import RPi.GPIO as GPIO
 import time
 
-from picamera2 import Picamera2, Preview 
+from picamera2 import Picamera2, Preview
 
-swPin = 14 
+swPin = 14
 
-GPIO.setwarnings(False) 
-GPIO.setmode(GPIO.BCM) 
-GPIO.setup(swPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(swPin,GPIO.IN,pull_up_down = GPIO.PUD_DOWN)
 
-oldSw = 0 
-newSw = 0 
+picam2 = Picamera2()
+picam2.preview_configuration.main.size = (800,600)
+picam2.configure('preview')
+picam2.start(show_preview = True)
 
-cnt = 1 
+oldSw = 0
+newSw = 0
 
-try : 
-	while True : 
-		newSw = GPIO.input(swPin) 
-		if newSw != oldSw: 
-			oldSw = newSw 
-			
-			if newSw == 1 : 
-				print('Click ' + str(cnt)) 
-				cnt += 1 
+cnt = 1
 
-			time.sleep(0.2) 
+try:
+    while True:
+        newSw = GPIO.input(swPin)
+        if newSw != oldSw:
+            oldSw = newSw
 
-except KeyboardInterrupt : 
-	pass 
+            if newSw == 1:
+                file_name = 'click ' + str(cnt)
+                print(file_name)
+                picam2.capture_file(f'/home/pi30405/1_camera/click_num/{file_name}.jpg')
+                cnt += 1
+            time.sleep(0.2)
 
-GPIO.cleanup() 
+except KeyboardInterrupt:
+    pass
+
+GPIO.cleanup()
